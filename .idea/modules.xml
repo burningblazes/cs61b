@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/cs61b.iml" filepath="$PROJECT_DIR$/.idea/cs61b.iml" />
+      <module fileurl="file://$PROJECT_DIR$/hw0b/hw0b.iml" filepath="$PROJECT_DIR$/hw0b/hw0b.iml" />
+      <module fileurl="file://$PROJECT_DIR$/hw2/hw2.iml" filepath="$PROJECT_DIR$/hw2/hw2.iml" />
+      <module fileurl="file://$PROJECT_DIR$/lab01/lab01.iml" filepath="$PROJECT_DIR$/lab01/lab01.iml" />
+      <module fileurl="file://$PROJECT_DIR$/lab02/lab02.iml" filepath="$PROJECT_DIR$/lab02/lab02.iml" />
+      <module fileurl="file://$PROJECT_DIR$/lab03/lab03.iml" filepath="$PROJECT_DIR$/lab03/lab03.iml" />
+      <module fileurl="file://$PROJECT_DIR$/lab05/lab05.iml" filepath="$PROJECT_DIR$/lab05/lab05.iml" />
+      <module fileurl="file://$PROJECT_DIR$/lab06/lab06.iml" filepath="$PROJECT_DIR$/lab06/lab06.iml" />
+      <module fileurl="file://$PROJECT_DIR$/lab07/lab07.iml" filepath="$PROJECT_DIR$/lab07/lab07.iml" />
+      <module fileurl="file://$PROJECT_DIR$/lab08/lab08.iml" filepath="$PROJECT_DIR$/lab08/lab08.iml" />
+      <module fileurl="file://$PROJECT_DIR$/lab09/lab09.iml" filepath="$PROJECT_DIR$/lab09/lab09.iml" />
+      <module fileurl="file://$PROJECT_DIR$/lab10/lab10.iml" filepath="$PROJECT_DIR$/lab10/lab10.iml" />
+      <module fileurl="file://$PROJECT_DIR$/proj0/proj0.iml" filepath="$PROJECT_DIR$/proj0/proj0.iml" />
+      <module fileurl="file://$PROJECT_DIR$/proj1a/proj1a.iml" filepath="$PROJECT_DIR$/proj1a/proj1a.iml" />
+      <module fileurl="file://$PROJECT_DIR$/proj1b/proj1b.iml" filepath="$PROJECT_DIR$/proj1b/proj1b.iml" />
+      <module fileurl="file://$PROJECT_DIR$/proj1c/proj1c.iml" filepath="$PROJECT_DIR$/proj1c/proj1c.iml" />
+      <module fileurl="file://$PROJECT_DIR$/proj2a/proj2a.iml" filepath="$PROJECT_DIR$/proj2a/proj2a.iml" />
+      <module fileurl="file://$PROJECT_DIR$/proj2b/proj2b.iml" filepath="$PROJECT_DIR$/proj2b/proj2b.iml" />
+      <module fileurl="file://$PROJECT_DIR$/proj2c/proj2c.iml" filepath="$PROJECT_DIR$/proj2c/proj2c.iml" />
+      <module fileurl="file://$PROJECT_DIR$/proj3/proj3.iml" filepath="$PROJECT_DIR$/proj3/proj3.iml" />
+    </modules>
+  </component>
+</project>
