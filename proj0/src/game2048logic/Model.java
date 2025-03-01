@@ -172,7 +172,7 @@ public class Model {
      * so we are tilting the tiles in this column up.
      * */
     public void tiltColumn(int x) {
-        for (int y = board.size()-1; y>=0 ; y--) {
+        for (int y = board.size()-2; y>=0 ; y--) {
             if (board.tile(x, y)!=null) {
                 moveTileUpAsFarAsPossible(x,y);
             }
