@@ -84,7 +84,13 @@ public class Model {
      *  Empty spaces are stored as null.
      * */
     public boolean emptySpaceExists() {
-        // TODO: Task 2. Fill in this function.
+        for (int x = 0; x < board.size(); x++) {
+            for (int y = 0; y < board.size(); y++) {
+                if (getBoard().tile(x,y) ==null){
+                    return true;
+                }
+            }
+        }
         return false;
     }
 
@@ -94,7 +100,14 @@ public class Model {
      * given a Tile object t, we get its value with t.value().
      */
     public boolean maxTileExists() {
-        // TODO: Task 3. Fill in this function.
+        for (int x = 0; x < board.size(); x++) {
+            for (int y = 0; y < board.size(); y++) {
+                Tile cur=getBoard().tile(x, y);
+                if (cur != null && cur.value() == MAX_PIECE) {
+                    return true;
+                }
+            }
+        }
         return false;
     }
 
@@ -105,7 +118,16 @@ public class Model {
      * 2. There are two adjacent tiles with the same value.
      */
     public boolean atLeastOneMoveExists() {
-        // TODO: Fill in this function.
+        if (emptySpaceExists()) {
+            return true;
+        }
+        for (int x = 0; x < board.size()-1; x++) {
+            for (int y = 0; y < board.size(); y++) {
+                if (getBoard().tile(x,y).value() == getBoard().tile(x+1,y).value()) {
+                    return true;
+            }else if (getBoard().tile(y,x).value() == getBoard().tile(y,x+1).value()){
+                    return true;
+                }}}
         return false;
     }
 
@@ -129,7 +151,20 @@ public class Model {
         int targetY = y;
 
         // TODO: Tasks 5, 6, and 10. Fill in this function.
+        while (targetY+1<board.size() && getBoard().tile(x,targetY+1) == null){
+            targetY++;
+            }
+
+        if (targetY+1<board.size() ){
+            Tile upTile = getBoard().tile(x,targetY+1);
+            if (upTile.value() == myValue &&  !upTile.wasMerged()){
+                targetY++;
+            }
+        }
+        board.move(x, targetY, currTile);
     }
+
+
 
     /** Handles the movements of the tilt in column x of the board
      * by moving every tile in the column as far up as possible.
