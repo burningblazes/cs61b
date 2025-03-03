@@ -150,7 +150,6 @@ public class Model {
         int myValue = currTile.value();
         int targetY = y;
 
-        // TODO: Tasks 5, 6, and 10. Fill in this function.
         while (targetY+1<board.size() && getBoard().tile(x,targetY+1) == null){
             targetY++;
             }
