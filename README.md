@@ -3,6 +3,7 @@ My solutions to UCB CS61B Fall 2024.
 
 ## Materials
 Course website: https://fa24.datastructur.es
+
 Textbook: https://cs61b-2.gitbook.io/cs61b-textbook
 
 ## How to setup (Tips on lab 1)
