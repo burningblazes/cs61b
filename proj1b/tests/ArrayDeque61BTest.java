@@ -101,4 +101,30 @@ public class ArrayDeque61BTest {
         assertThat(lst.size()).isEqualTo(1);
 
     }
+
+    @Test
+    public void removeLastResizeTest(){
+        Deque61B<Integer> lst = new ArrayDeque61B<>();
+        for (int i = 0; i < 12; i++) {
+            lst.addLast(i);
+        }//[0,1,2,3,4,5,6,7,8,9,10,11]
+        assertThat(lst.toList()).containsExactly(0,1,2,3,4,5,6,7,8,9,10,11).inOrder();
+        for (int i = 0; i < 10; i++) {
+            lst.removeLast(); //[0,1]
+        }
+        assertThat(lst.toList()).containsExactly(0,1).inOrder();
+    }
+
+    @Test
+    public void removeFirstResizeTest(){
+        Deque61B<Integer> lst = new ArrayDeque61B<>();
+        for (int i = 0; i < 12; i++) {
+            lst.addLast(i);
+        }//[0,1,2,3,4,5,6,7,8,9,10,11]
+        assertThat(lst.toList()).containsExactly(0,1,2,3,4,5,6,7,8,9,10,11).inOrder();
+        for (int i = 0; i < 10; i++) {
+            lst.removeFirst(); //[10,11]
+        }
+        assertThat(lst.toList()).containsExactly(10,11).inOrder();
+    }
 }

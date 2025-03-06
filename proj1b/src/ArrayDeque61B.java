@@ -3,7 +3,7 @@ import java.util.List;
 import java.lang.Math;
 
 public class ArrayDeque61B<T> implements Deque61B<T> {
-    private static final int RFACTOR=8;
+    private static final int RFACTOR=2;
     private T[] array;
     private int size;
     private int capacity;
@@ -64,9 +64,14 @@ public class ArrayDeque61B<T> implements Deque61B<T> {
         if (size == 0) {
             return null;
         }
+        if (capacity>=16 && size / (double) capacity <=0.25) {
+            resize(capacity/RFACTOR);
+        }
+        T temp=array[plusOne(nextFirst)];
         nextFirst = plusOne(nextFirst);
         size--;
-        return array[nextFirst];
+
+        return temp;
     }
 
     @Override
@@ -74,9 +79,13 @@ public class ArrayDeque61B<T> implements Deque61B<T> {
         if (size == 0) {
             return null;
         }
+        if (capacity>=16 && size / (double) capacity <=0.25) {
+            resize(capacity/RFACTOR);
+        }
+        T temp=array[minusOne(nextLast)];
         nextLast = minusOne(nextLast);
         size--;
-        return array[nextLast];
+        return temp;
     }
 
     @Override
@@ -84,7 +93,7 @@ public class ArrayDeque61B<T> implements Deque61B<T> {
         if (index < 0 || index >= size) {
             return null;
         }
-        return array[Math.floorMod(nextFirst+1+index,capacity)];
+        return array[plusOne(nextFirst+index)];
     }
 
     @Override
@@ -95,11 +104,12 @@ public class ArrayDeque61B<T> implements Deque61B<T> {
 
     private void resize(int newCapacity) {
         T[] newArray = (T[]) new Object[newCapacity];
-        System.arraycopy(array, plusOne(nextFirst), newArray, 0, capacity - nextFirst - 1);
-        System.arraycopy(array, 0, newArray, capacity - nextLast, 1 + nextFirst);
+        for (int i = 0; i < size; i++) {
+            newArray[i] = this.get(i);
+        }
 
         nextFirst = newCapacity - 1;
-        nextLast = capacity;
+        nextLast = size;
         capacity = newCapacity;
         array = newArray;
     }
