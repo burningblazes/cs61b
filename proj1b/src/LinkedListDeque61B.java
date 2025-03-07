@@ -162,11 +162,18 @@ public class LinkedListDeque61B<T> implements Deque61B<T> {
         return true;
     }
 
+    @Override
+    public String toString() {
+        return this.toList().toString();
+    }
+
     public static void main(String[] args) {
         LinkedListDeque61B<Integer> aset = new LinkedListDeque61B<>();
         aset.addLast(5);
         aset.addLast(23);
         aset.addLast(42);
+
+        System.out.println(aset);
 
         for (int i : aset) {
             System.out.println(i);

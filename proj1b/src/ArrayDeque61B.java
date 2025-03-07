@@ -166,12 +166,18 @@ public class ArrayDeque61B<T> implements Deque61B<T> {
         return true;
     }
 
+    @Override
+    public String toString() {
+        return this.toList().toString();
+    }
+
     public static void main(String[] args) {
         ArrayDeque61B<Integer> aset = new ArrayDeque61B<>();
         aset.addLast(5);
         aset.addLast(23);
         aset.addLast(42);
 
+        System.out.println(aset);
         //iteration
         for (int i : aset) {
             System.out.println(i);
