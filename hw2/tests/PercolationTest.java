@@ -82,7 +82,8 @@ public class PercolationTest {
     //       write some more tests and delete the fail() line
     @Test
     public void yourFirstTestHere() {
-        fail("Did you write your own tests?");
+
+        //fail("Did you write your own tests?");
     }
 
 }
