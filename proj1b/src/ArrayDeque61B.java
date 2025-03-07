@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.lang.Math;
 
@@ -120,6 +121,61 @@ public class ArrayDeque61B<T> implements Deque61B<T> {
 
     private int plusOne(int x){
         return Math.floorMod(x+1,capacity);
+    }
+
+    @Override
+    public Iterator<T> iterator() {
+        return new ArrayDeque61BIterator();
+    }
+
+    private class ArrayDeque61BIterator implements Iterator<T> {
+        private int wizPos;
+
+        public ArrayDeque61BIterator() {
+            wizPos = 0;
+        }
+
+        @Override
+        public boolean hasNext() {
+            return wizPos < size;
+        }
+
+        @Override
+        public T next() {
+            T res=get(wizPos);
+            wizPos++;
+            return res;
+        }
+    }
+
+    @Override
+    public boolean equals(Object other) {
+        if (this ==other){
+            return true;
+        }
+        if (other instanceof ArrayDeque61B otherArray){
+            if (this.size != otherArray.size){
+                return false;
+            }
+            for (int i = 0; i < this.size; i++) {
+                if (this.get(i)!=otherArray.get(i)){
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    public static void main(String[] args) {
+        ArrayDeque61B<Integer> aset = new ArrayDeque61B<>();
+        aset.addLast(5);
+        aset.addLast(23);
+        aset.addLast(42);
+
+        //iteration
+        for (int i : aset) {
+            System.out.println(i);
+        }
     }
 
 }
