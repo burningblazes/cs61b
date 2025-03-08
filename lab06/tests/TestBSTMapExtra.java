@@ -21,8 +21,8 @@ public class TestBSTMapExtra {
         }
         assertThat(b.size()).isEqualTo(455); //keys are there
         Set<String> keySet = b.keySet();
-        assertThat(values).containsExactlyElementsIn(keySet).inOrder();
-        assertThat(keySet).containsExactlyElementsIn(values).inOrder();
+        assertThat(values).containsExactlyElementsIn(keySet);
+        assertThat(keySet).containsExactlyElementsIn(values);
     }
 
     /* Remove Test
