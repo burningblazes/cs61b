@@ -25,7 +25,6 @@ public class NGramMap {
     private HashMap<String,TimeSeries> ngrams;
     private TimeSeries wordsCount;
 
-
     /**
      * Constructs an NGramMap from WORDSFILENAME and COUNTSFILENAME.
      */
@@ -55,7 +54,6 @@ public class NGramMap {
             String[] splitLine = nextLine.split(",");
             wordsCount.put(Integer.parseInt(splitLine[0]),Double.parseDouble(splitLine[1]));
         }
-
     }
 
     /**
@@ -93,7 +91,8 @@ public class NGramMap {
      */
     public TimeSeries weightHistory(String word, int startYear, int endYear) {
         TimeSeries res = countHistory( word, startYear,  endYear);
-        return res.dividedBy(totalCountHistory());
+        res=res.dividedBy(totalCountHistory());
+        return res;
     }
 
     /**
@@ -114,7 +113,7 @@ public class NGramMap {
                                           int startYear, int endYear) {
         TimeSeries res= new TimeSeries();
         for (String word : words) {
-            res.plus(weightHistory(word, startYear, endYear));
+            res=res.plus(weightHistory(word, startYear, endYear));
         }
         return res;
     }
@@ -126,6 +125,5 @@ public class NGramMap {
     public TimeSeries summedWeightHistory(Collection<String> words) {
         return summedWeightHistory(words, MIN_YEAR, MAX_YEAR);
     }
-
 
 }
