@@ -55,6 +55,7 @@ public class NGramMapTest {
         assertThat(fishCount.get(1922)).isWithin(1E-10).of(444924.0);
 
         TimeSeries totalCounts = ngm.totalCountHistory();
+
         assertThat(totalCounts.get(1865)).isWithin(1E-10).of(2563919231.0);
 
         // returns the relative weight of the word fish in each year between 1850 and 1933.

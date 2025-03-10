@@ -32,10 +32,12 @@ public class TimeSeries extends TreeMap<Integer, Double> {
      */
     public TimeSeries(TimeSeries ts, int startYear, int endYear) {
         super();
-        Integer cur=ts.higherKey(startYear-1);
-        while (cur!=null && cur<=endYear) {
-            this.put(cur, ts.get(cur));
-            cur=ts.higherKey(cur);
+        if (ts != null) {
+            Integer cur=ts.higherKey(startYear-1);
+            while (cur!=null && cur<=endYear) {
+                this.put(cur, ts.get(cur));
+                cur=ts.higherKey(cur);
+            }
         }
     }
 

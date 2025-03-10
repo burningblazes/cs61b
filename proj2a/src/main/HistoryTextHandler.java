@@ -33,7 +33,6 @@ public class HistoryTextHandler extends NgordnetQueryHandler {
             res.append(sj.toString()).append("}\n");
         }
 
-
         return res.toString();
     }
 }
