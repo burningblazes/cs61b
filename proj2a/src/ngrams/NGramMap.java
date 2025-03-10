@@ -1,6 +1,11 @@
 package ngrams;
 
 import java.util.Collection;
+import edu.princeton.cs.algs4.In;
+import static utils.Utils.*;
+import java.util.HashMap;
+
+
 
 import static ngrams.TimeSeries.MAX_YEAR;
 import static ngrams.TimeSeries.MIN_YEAR;
@@ -17,13 +22,40 @@ import static ngrams.TimeSeries.MIN_YEAR;
  */
 public class NGramMap {
 
-    // TODO: Add any necessary static/instance variables.
+    private HashMap<String,TimeSeries> ngrams;
+    private TimeSeries wordsCount;
+
 
     /**
      * Constructs an NGramMap from WORDSFILENAME and COUNTSFILENAME.
      */
     public NGramMap(String wordsFilename, String countsFilename) {
-        // TODO: Fill in this constructor. See the "NGramMap Tips" section of the spec for help.
+        In in1 = new In(wordsFilename);
+        ngrams = new HashMap<>();
+
+        while (!in1.isEmpty()) {
+            String nextLine = in1.readLine();
+            String[] splitLine = nextLine.split("\t");
+            String word = splitLine[0];
+            if (! ngrams.containsKey(word)) {
+                ngrams.put(word, new TimeSeries());
+                TimeSeries ts = new TimeSeries();
+                ts.put(Integer.parseInt(splitLine[1]),Double.parseDouble(splitLine[2]));
+                ngrams.put(word,ts);
+            }else{
+                ngrams.get(word).put(Integer.parseInt(splitLine[1]),Double.parseDouble(splitLine[2]));
+            }
+        }
+
+        In in2 = new In(countsFilename);
+        wordsCount = new TimeSeries();
+
+        while (!in2.isEmpty()) {
+            String nextLine = in2.readLine();
+            String[] splitLine = nextLine.split(",");
+            wordsCount.put(Integer.parseInt(splitLine[0]),Double.parseDouble(splitLine[1]));
+        }
+
     }
 
     /**
@@ -34,8 +66,7 @@ public class NGramMap {
      * returns an empty TimeSeries.
      */
     public TimeSeries countHistory(String word, int startYear, int endYear) {
-        // TODO: Fill in this method.
-        return null;
+        return new TimeSeries(ngrams.get(word),startYear,endYear);
     }
 
     /**
@@ -45,16 +76,14 @@ public class NGramMap {
      * is not in the data files, returns an empty TimeSeries.
      */
     public TimeSeries countHistory(String word) {
-        // TODO: Fill in this method.
-        return null;
+        return countHistory(word, MIN_YEAR, MAX_YEAR);
     }
 
     /**
      * Returns a defensive copy of the total number of words recorded per year in all volumes.
      */
     public TimeSeries totalCountHistory() {
-        // TODO: Fill in this method.
-        return null;
+        return new TimeSeries(wordsCount, MIN_YEAR, MAX_YEAR);
     }
 
     /**
@@ -63,8 +92,8 @@ public class NGramMap {
      * TimeSeries.
      */
     public TimeSeries weightHistory(String word, int startYear, int endYear) {
-        // TODO: Fill in this method.
-        return null;
+        TimeSeries res = countHistory( word, startYear,  endYear);
+        return res.dividedBy(totalCountHistory());
     }
 
     /**
@@ -73,8 +102,7 @@ public class NGramMap {
      * TimeSeries.
      */
     public TimeSeries weightHistory(String word) {
-        // TODO: Fill in this method.
-        return null;
+        return weightHistory( word, MIN_YEAR, MAX_YEAR);
     }
 
     /**
@@ -84,8 +112,11 @@ public class NGramMap {
      */
     public TimeSeries summedWeightHistory(Collection<String> words,
                                           int startYear, int endYear) {
-        // TODO: Fill in this method.
-        return null;
+        TimeSeries res= new TimeSeries();
+        for (String word : words) {
+            res.plus(weightHistory(word, startYear, endYear));
+        }
+        return res;
     }
 
     /**
@@ -93,10 +124,8 @@ public class NGramMap {
      * exist in this time frame, ignore it rather than throwing an exception.
      */
     public TimeSeries summedWeightHistory(Collection<String> words) {
-        // TODO: Fill in this method.
-        return null;
+        return summedWeightHistory(words, MIN_YEAR, MAX_YEAR);
     }
 
-    // TODO: Add any private helper methods.
-    // TODO: Remove all TODO comments before submitting.
+
 }

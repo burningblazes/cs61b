@@ -43,7 +43,8 @@ public class TimeSeries extends TreeMap<Integer, Double> {
      * Returns all years for this TimeSeries (in any order).
      */
     public List<Integer> years() {
-        List<Integer> res=new ArrayList<>();        res.addAll(keySet());
+        List<Integer> res=new ArrayList<>();
+        res.addAll(keySet());
         return res;
     }
 
