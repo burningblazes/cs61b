@@ -25,18 +25,3 @@ MyHashMap: 0.04 sec
 
 Enter # strings to insert into Java's HashMap: 50000
 Java's Built-in HashMap: 0.03 sec
-
-
-3. Different Bucket Types
-
- This program inserts random Strings of length L
- into different types of maps as <String, Integer> pairs.
-
-What would you like L to be?: 5
-
-Enter # strings to insert into each map: 50000
-MyHashMap with ArrayList buckets: 0.11 sec
-MyHashMap with LinkedList buckets: 0.05 sec
-MyHashMap with HashSet buckets: 0.06 sec
-MyHashMap with Stack buckets: 0.04 sec
-MyHashMap with ArrayDeque buckets: 0.03 sec
