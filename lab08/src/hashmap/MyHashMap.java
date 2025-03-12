@@ -1,14 +1,15 @@
 package hashmap;
 
-import java.util.Collection;
+import java.util.*;
 
 /**
  *  A hash table-backed Map implementation.
  *
  *  Assumes null keys will never be inserted, and does not resize down upon remove().
- *  @author YOUR NAME HERE
+ *  @author Yusheng Rain Y
  */
 public class MyHashMap<K, V> implements Map61B<K, V> {
+
 
     /**
      * Protected helper class to store key/value pairs
@@ -27,11 +28,21 @@ public class MyHashMap<K, V> implements Map61B<K, V> {
     /* Instance Variables */
     private Collection<Node>[] buckets;
     // You should probably define some more!
+    private int size=0;
+    private int capacity;
+    private double loadFactor;
+    private Set<K> keySet;
+
+    private static final int resizeFactor=2;
 
     /** Constructors */
-    public MyHashMap() { }
+    public MyHashMap() {
+        this(16);
+    }
 
-    public MyHashMap(int initialCapacity) { }
+    public MyHashMap(int initialCapacity) {
+        this(initialCapacity, 0.75);
+    }
 
     /**
      * MyHashMap constructor that creates a backing array of initialCapacity.
@@ -40,7 +51,15 @@ public class MyHashMap<K, V> implements Map61B<K, V> {
      * @param initialCapacity initial size of backing array
      * @param loadFactor maximum load factor
      */
-    public MyHashMap(int initialCapacity, double loadFactor) { }
+    public MyHashMap(int initialCapacity, double loadFactor) {
+        this.capacity = initialCapacity;
+        this.loadFactor = loadFactor;
+        buckets = new Collection[capacity];
+        keySet = new HashSet<K>();
+        for (int i = 0; i < capacity; i++) {
+            buckets[i] = createBucket();
+        }
+    }
 
     /**
      * Returns a data structure to be a hash table bucket
@@ -49,7 +68,7 @@ public class MyHashMap<K, V> implements Map61B<K, V> {
      *  1. Insert items (`add` method)
      *  2. Remove items (`remove` method)
      *  3. Iterate through items (`iterator` method)
-     *  Note that that this is referring to the hash table bucket itself,
+     *  Note that this is referring to the hash table bucket itself,
      *  not the hash map itself.
      *
      * Each of these methods is supported by java.util.Collection,
@@ -63,11 +82,111 @@ public class MyHashMap<K, V> implements Map61B<K, V> {
      * OWN BUCKET DATA STRUCTURES WITH THE NEW OPERATOR!
      */
     protected Collection<Node> createBucket() {
-        // TODO: Fill in this method.
+        return new LinkedList<>();
+    }
+
+
+    @Override
+    public void put(K key, V value) {
+        if (key!=null){
+            int id=getBucketIndex(key);
+            Collection<Node> bucket=buckets[id];
+            for (Node p : bucket) {
+                if (p.key.equals(key)) {
+                    p.value = value;
+                    return;
+                }
+            }
+            bucket.add(new Node(key,value));
+            }
+        size++;
+        if (size>capacity*loadFactor){
+            resize();
+        }
+        keySet.add(key);
+    }
+
+    private void resize() {
+        capacity*=resizeFactor;
+        Collection<Node>[] newbuckets = new Collection[capacity];
+        for (int i = 0; i < capacity; i++) {
+            newbuckets[i] = createBucket();
+        }
+        for (Collection<Node> bucket : buckets) {
+            for (Node node : bucket) {
+                newbuckets[getBucketIndex(node.key)].add(node);
+            }
+        }
+        buckets = newbuckets;
+    }
+
+
+    @Override
+    public V get(K key) {
+        int id=getBucketIndex(key);
+        Collection<Node> bucket=buckets[id];
+        for (Node p : bucket) {
+            if (p.key.equals(key)) {
+                return p.value;
+            }
+        }
         return null;
     }
 
-    // TODO: Implement the methods of the Map61B Interface below
-    // Your code won't compile until you do so!
+    @Override
+    public boolean containsKey(K key) {
+        int id=getBucketIndex(key);
+        Collection<Node> bucket=buckets[id];
+        for (Node p : bucket) {
+            if (p.key.equals(key)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    @Override
+    public int size() {
+        return this.size;
+    }
+
+    @Override
+    public void clear() {
+        this.size=0;
+        this.buckets = new Collection[capacity];
+        for (int i = 0; i < capacity; i++) {
+            buckets[i] = createBucket();
+        }
+    }
+
+    @Override
+    public Set<K> keySet() {
+        return this.keySet;
+    }
+
+    @Override
+    public V remove(K key) {
+        int id=getBucketIndex(key);
+        Collection<Node> bucket=buckets[id];
+        for (Node p : bucket) {
+            if (p.key.equals(key)) {
+                V res=p.value;
+                bucket.remove(p);
+                keySet.remove(p.key);
+                size--;
+                return res;
+            }
+        }
+        return null;
+    }
+
+    @Override
+    public Iterator<K> iterator() {
+        return keySet().iterator();
+    }
+
+    private int getBucketIndex(K key) {
+        return Math.floorMod(key.hashCode(), capacity);
+    }
 
 }
