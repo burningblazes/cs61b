@@ -2,7 +2,7 @@ package ngrams;
 
 import java.util.Collection;
 import edu.princeton.cs.algs4.In;
-import static utils.Utils.*;
+
 import java.util.HashMap;
 
 
@@ -124,6 +124,15 @@ public class NGramMap {
      */
     public TimeSeries summedWeightHistory(Collection<String> words) {
         return summedWeightHistory(words, MIN_YEAR, MAX_YEAR);
+    }
+
+    public double periodCount(String word, int startYear, int endYear) {
+        TimeSeries allCount = countHistory(word, startYear, endYear);
+        double res = 0;
+        for (double d :allCount.data()){
+            res+=d;
+        }
+        return res;
     }
 
 }

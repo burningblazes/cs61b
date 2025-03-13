@@ -52,13 +52,16 @@ public class MyGraph {
     public TreeSet<String> getHyponyms(String word){
         TreeSet<String> res=new TreeSet<>();
         Queue<Integer> q=new ArrayDeque<>();
-        q.addAll(idOfSingleWords.get(word));
-        while(!q.isEmpty()){
-            Integer temp= q.remove();
-            res.addAll(words.get(temp));
-            Set<Integer> aa = children.get(temp);
-            if (aa!=null) {
-                q.addAll(aa);
+        Set<Integer> ids=idOfSingleWords.get(word);
+        if(ids!=null){
+            q.addAll(ids);
+            while(!q.isEmpty()){
+                Integer temp= q.remove();
+                res.addAll(words.get(temp));
+                Set<Integer> aa = children.get(temp);
+                if (aa!=null) {
+                    q.addAll(aa);
+                }
             }
         }
         return res;
