@@ -28,6 +28,8 @@ public class HyponymsHandler extends NgordnetQueryHandler  {
 
         if (qType==NgordnetQueryType.HYPONYMS){
             return getHyponyms(wordList, startYear, endYear, k);
+        } else if (qType==NgordnetQueryType.ANCESTORS){
+            return getCommonAncestors(wordList, startYear, endYear, k);
         }
         return null;
     }
@@ -35,7 +37,7 @@ public class HyponymsHandler extends NgordnetQueryHandler  {
     private String getHyponyms(List<String> wordList,int startYear, int endYear, int k){
         TreeSet<String> res = wordGraph.getHyponyms(wordList);
 
-        if (res.size() > k) {
+        if (k>0 && res.size() > k) {
             TreeMap<String,Double> wordsCount = new TreeMap<>();
             for (String word : res) {
                 wordsCount.put(word, ngm.periodCount(word,startYear,endYear));
@@ -45,7 +47,29 @@ public class HyponymsHandler extends NgordnetQueryHandler  {
         return "[" + res.stream().collect(Collectors.joining(", ")) + "]";
     }
 
-    private TreeSet<String> getTopK(TreeMap<String,Double> wordsCount, int k ) {
+    private String getCommonAncestors(List<String> wordList,int startYear, int endYear, int k){
+        TreeSet<String> res = wordGraph.getAncestor(wordList);
+
+        if (k >0 && res.size() > k) {
+            TreeMap<String,Double> wordsCount = new TreeMap<>();
+            for (String word : res) {
+                wordsCount.put(word, ngm.periodCount(word,startYear,endYear));
+            }
+            res=getTopK(wordsCount,k);
+        }
+        return "[" + res.stream().collect(Collectors.joining(", ")) + "]";
+    }
+
+    private TreeSet<String> getTopK(TreeSet<String> wordSet,int k,int startYear,int endYear){
+        TreeMap<String,Double> wordsCount = new TreeMap<>();
+        for (String word : wordSet) {
+            wordsCount.put(word, ngm.periodCount(word,startYear,endYear));
+        }
+        wordSet=getTopKHelper(wordsCount,k);
+        return wordSet;
+    }
+
+    private TreeSet<String> getTopKHelper(TreeMap<String,Double> wordsCount, int k ) {
         PriorityQueue<Map.Entry<String, Double>> minHeap =
                 new PriorityQueue<>(Comparator.comparingDouble(Map.Entry::getValue));
         for (Map.Entry<String, Double> entry : wordsCount.entrySet()) {
