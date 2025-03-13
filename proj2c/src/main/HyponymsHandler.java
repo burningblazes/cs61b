@@ -34,30 +34,24 @@ public class HyponymsHandler extends NgordnetQueryHandler  {
         return null;
     }
 
+
     private String getHyponyms(List<String> wordList,int startYear, int endYear, int k){
         TreeSet<String> res = wordGraph.getHyponyms(wordList);
 
         if (k>0 && res.size() > k) {
-            TreeMap<String,Double> wordsCount = new TreeMap<>();
-            for (String word : res) {
-                wordsCount.put(word, ngm.periodCount(word,startYear,endYear));
-            }
-            res=getTopK(wordsCount,k);
+            res=getTopK(res,k,startYear,endYear);
         }
-        return "[" + res.stream().collect(Collectors.joining(", ")) + "]";
+        return output(res);
     }
+
 
     private String getCommonAncestors(List<String> wordList,int startYear, int endYear, int k){
         TreeSet<String> res = wordGraph.getAncestor(wordList);
 
         if (k >0 && res.size() > k) {
-            TreeMap<String,Double> wordsCount = new TreeMap<>();
-            for (String word : res) {
-                wordsCount.put(word, ngm.periodCount(word,startYear,endYear));
-            }
-            res=getTopK(wordsCount,k);
+            res=getTopK(res,k,startYear,endYear);
         }
-        return "[" + res.stream().collect(Collectors.joining(", ")) + "]";
+        return output(res);
     }
 
     private TreeSet<String> getTopK(TreeSet<String> wordSet,int k,int startYear,int endYear){
@@ -83,6 +77,10 @@ public class HyponymsHandler extends NgordnetQueryHandler  {
             res.add(minHeap.poll().getKey());
         }
         return res;
+    }
+
+    private String output(TreeSet<String> wordSet){
+        return "[" + wordSet.stream().collect(Collectors.joining(", ")) + "]";
     }
 }
 

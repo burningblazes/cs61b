@@ -9,6 +9,7 @@ import java.util.*;
 public class MyGraph {
 
     private HashMap<Integer, Set<Integer>> children;
+    private HashMap<Integer, Set<Integer>> parents;
     private HashMap<Integer, Set<String>> words;
     private HashMap<String, Set<Integer>> idOfSingleWords;
 
@@ -16,6 +17,7 @@ public class MyGraph {
         children = new HashMap<>();
         words=new HashMap<>();
         idOfSingleWords = new HashMap<>();
+        parents = new HashMap<>();
 
         In in1=new In(synsetFileName);
         while (!in1.isEmpty()) {
@@ -43,7 +45,12 @@ public class MyGraph {
 
             Set<Integer> theChildren = children.getOrDefault(temp, new HashSet<>());
             for (int i=1;i<splitLine.length;i++) {
-                theChildren.add(Integer.parseInt(splitLine[i]));
+                int child=Integer.parseInt(splitLine[i]);
+                theChildren.add(child);
+
+                Set<Integer> theParents = parents.getOrDefault(child, new HashSet<>());
+                theParents.add(temp);
+                parents.put(child, theParents);
             }
             children.put(temp, theChildren);
         }
@@ -71,6 +78,34 @@ public class MyGraph {
         TreeSet<String> res= getHyponyms(wordlist.get(0));
         for (int i=1;i<wordlist.size();i++){
             TreeSet<String> temp= getHyponyms(wordlist.get(i));
+            res.retainAll(temp);
+        }
+        return res;
+    }
+
+    public TreeSet<String> getAncestor(String word){
+        TreeSet<String> res= new TreeSet<>();
+        Set<Integer> ids=idOfSingleWords.get(word);
+        if(ids==null){
+            return res;
+        }
+        Queue<Integer> q=new ArrayDeque<>();
+        q.addAll(ids);
+        while(!q.isEmpty()){
+            Integer temp= q.remove();
+            res.addAll(words.get(temp));
+            Set<Integer> aa = parents.get(temp);
+            if (aa!=null) {
+                q.addAll(aa);
+            }
+        }
+        return res;
+    }
+
+    public TreeSet<String> getAncestor(List<String> wordlist){
+        TreeSet<String> res= getAncestor(wordlist.get(0));
+        for (int i=1;i<wordlist.size();i++){
+            TreeSet<String> temp= getAncestor(wordlist.get(i));
             res.retainAll(temp);
         }
         return res;
