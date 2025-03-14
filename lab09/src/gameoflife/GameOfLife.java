@@ -307,25 +307,25 @@ public class GameOfLife {
      * 0 represents NOTHING, 1 represents a CELL.
      */
     public TETile[][] loadBoard(String filename) {
-        // TODO: Read in the file.
+        String file= FileUtils.readFile(filename);
+        String[] lines = file.split("\n");
 
-        // TODO: Split the file based on the new line character.
+        String[] firstLine = lines[0].split(" ");
+        this.width = Integer.parseInt(firstLine[0]);
+        this.height = Integer.parseInt(firstLine[1]);
+        TETile[][] tiles = new TETile[width][height];
 
-        // TODO: Grab and set the dimensions from the first line.
-
-        // TODO: Create a TETile[][] to load the board from the file into
-        // TODO: and any additional variables that you think might help.
-
-
-        // TODO: Load the state of the board from the given filename. You can
-        // TODO: use the provided builder variable to help you and FileUtils
-        // TODO: functions. Make sure the orientation is correct!
-
-
-
-
-        // TODO: Return the board you loaded. Replace/delete this line.
-        return null;
+        for (int y = 0; y < height; y++) {
+            String thisRow = lines[y+1];
+            for (int x = 0; x < width; x++) {
+                if (thisRow.charAt(x) =='0'){
+                    tiles[y][x] = Tileset.NOTHING;
+                }else{
+                    tiles[y][x] = Tileset.CELL;
+                }
+            }
+        }
+        return tiles;
     }
 
     /**
