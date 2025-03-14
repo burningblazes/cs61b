@@ -7,6 +7,7 @@ import tileengine.Tileset;
 import utils.FileUtils;
 
 import java.awt.event.KeyEvent;
+import java.util.List;
 import java.util.Random;
 
 /**
@@ -236,16 +237,35 @@ public class GameOfLife {
         TETile[][] nextGen = new TETile[width][height];
         // The board is filled with Tileset.NOTHING
         fillWithNothing(nextGen);
-
         // TODO: Implement this method so that the described transitions occur.
-        // TODO: The current state is represented by TETiles[][] tiles and the next
-        // TODO: state/evolution should be returned in TETile[][] nextGen.
-
-
-
-
-        // TODO: Returns the next evolution in TETile[][] nextGen.
-        return null;
+        int[][] fxs = {{0, 1}, {1, 0}, {-1, 0}, {0, -1}, {-1, 1}, {1, -1}, {1, 1}, {-1, -1}};
+        for (int x = 0; x < width; x++) {
+            for (int y = 0; y < height; y++) {
+                int liveNeighbors = 0;
+                for (int[] fx : fxs) {
+                    int xx = x + fx[0];
+                    int yy = y + fx[1];
+                    if (xx >= 0 && xx < width && yy >= 0 && yy < height) {
+                        if (tiles[xx][yy] == Tileset.CELL) {
+                            liveNeighbors++;
+                        }
+                    }
+                }
+                if (tiles[x][y] == Tileset.CELL) {
+                    if (liveNeighbors < 2 || liveNeighbors > 3) {
+                        nextGen[x][y] = Tileset.NOTHING;
+                    } else {
+                        nextGen[x][y] = Tileset.CELL;
+                    }
+                }
+                if (tiles[x][y] == Tileset.NOTHING) {
+                    if (liveNeighbors == 3) {
+                        nextGen[x][y] = Tileset.CELL;
+                    }
+                }
+            }
+        }
+        return nextGen;
     }
 
     /**
