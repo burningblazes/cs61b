@@ -7,6 +7,7 @@ import tileengine.Tileset;
 import utils.FileUtils;
 
 import java.awt.event.KeyEvent;
+import java.io.FileWriter;
 import java.util.List;
 import java.util.Random;
 
@@ -237,7 +238,7 @@ public class GameOfLife {
         TETile[][] nextGen = new TETile[width][height];
         // The board is filled with Tileset.NOTHING
         fillWithNothing(nextGen);
-        // TODO: Implement this method so that the described transitions occur.
+
         int[][] fxs = {{0, 1}, {1, 0}, {-1, 0}, {0, -1}, {-1, 1}, {1, -1}, {1, 1}, {-1, -1}};
         for (int x = 0; x < width; x++) {
             for (int y = 0; y < height; y++) {
@@ -286,20 +287,19 @@ public class GameOfLife {
      * 0 represents NOTHING, 1 represents a CELL.
      */
     public void saveBoard() {
-        // TODO: Save the dimensions of the board into the first line of the file.
-        // TODO: The width and height should be separated by a space, and end with "\n".
+        StringBuilder res = new StringBuilder();
+        res.append(width+" "+height+"\n");
 
-
-
-        // TODO: Save the current state of the board into save.txt. You should
-        // TODO: use the provided FileUtils functions to help you. Make sure
-        // TODO: the orientation is correct! Each line in the board should
-        // TODO: end with a new line character.
-
-
-
-
-
+        for (int y = 0; y < height; y++) {
+            for (int x = 0; x < width; x++) {
+                if (currentState[x][height-y-1]==Tileset.NOTHING){
+                    res.append(0);
+                } else {
+                    res.append(1);
+                }
+            }res.append("\n");
+        }
+        FileUtils.writeFile(SAVE_FILE, res.toString());
     }
 
     /**
