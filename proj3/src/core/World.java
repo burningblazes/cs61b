@@ -39,19 +39,34 @@ public class World {
 
     public void drawWorld() {
         //TODO: drawRooms
+        drawRooms();
         //TODO: drawWalls
         //TODO: drawHallways
 
-        for (int x = 20; x < 35; x++) {
-            for (int y = 5; y < 10; y++) {
-                myWorld[x][y] = Tileset.WALL;
-            }
-        }
     }
 
     public TETile[][] getWorld() {
         return myWorld;
     }
 
+    public int getWidth() {
+        return width;
+    }
+
+    public int getHeight() {
+        return height;
+    }
+
+    public boolean isTileEmpty(int x, int y) {
+        return myWorld[x][y]==Tileset.NOTHING;
+    }
+
+    private void drawRooms(){
+        int num=random.nextInt(5)+7;
+        for (int x = 0; x < num; x++) {
+            Room room = new Room(random, this);
+            room.draw(myWorld);
+        }
+    }
 
 }
