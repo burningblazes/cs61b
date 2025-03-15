@@ -1,9 +1,10 @@
 package core;
 
 import edu.princeton.cs.algs4.StdDraw;
-import tileengine.TERenderer;
 import tileengine.TETile;
 import tileengine.Tileset;
+
+import java.util.ArrayList;
 import java.util.Random;
 
 public class Room {
@@ -45,6 +46,14 @@ public class Room {
             }
         }
         return false;
+    }
+
+    public int getCenterX() {
+        return x+Math.floorDiv(width,2);
+    }
+
+    public int getCenterY() {
+        return y+Math.floorDiv(height,2);
     }
 
 
