@@ -43,9 +43,6 @@ public class World {
 
     public void drawWorld() {
         drawRooms();
-        //TODO: drawWalls
-
-        //TODO: drawHallways
         Hallway hallway=new Hallway(random,this);
         hallway.draw(myWorld);
     }
