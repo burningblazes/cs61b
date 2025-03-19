@@ -44,7 +44,8 @@ public class World {
     public void drawWorld() {
         drawRooms();
         Hallway hallway=new Hallway(random,this);
-        hallway.draw(myWorld);
+        hallway.drawAll(myWorld);
+       // hallway.drawAllTurning(myWorld,random);
     }
 
     public TETile[][] getWorld() {
