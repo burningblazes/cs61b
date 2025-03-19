@@ -176,6 +176,8 @@ public class Tetris {
         StdDraw.clear(Color.BLACK);
         StdDraw.setPenColor(255,255,255);
         StdDraw.text(5, 10, "Game Over");
+        StdDraw.text(5, 9, "Your score: " + score);
+        StdDraw.show();
     }
 
     /**
