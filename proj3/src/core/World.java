@@ -18,18 +18,28 @@ public class World {
     private Random random;
     private ArrayList<Room> rooms;
     private Avator avator;
-    //private TERenderer ter;
 
     public World(long seed) {
         width = DEFAULT_WIDTH;
         height = DEFAULT_HEIGHT;
-//        ter = new TERenderer();
-//        ter.initialize(width, height);
         random = new Random(seed);
         myWorld = new TETile[width][height];
         rooms = new ArrayList<>();
         clearWorld();
         drawWorld();
+        avator=new Avator(this);
+    }
+
+    public World(TETile[][] tiles, int x, int y){
+        width = DEFAULT_WIDTH;
+        height = DEFAULT_HEIGHT;
+        random = new Random();
+        myWorld = tiles;
+        avator=new Avator(this, x, y);
+    }
+
+    public Avator getAvator() {
+        return avator;
     }
 
     public void clearWorld() {

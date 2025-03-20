@@ -18,6 +18,14 @@ public class Avator {
         addAvator();
     }
 
+    public Avator(World world, int x, int y) {
+        random= world.getRandom();
+        myWorld=world.getWorld();
+        this.x=x;
+        this.y=y;
+        myWorld[x][y]=Tileset.AVATAR;
+    }
+
     public void addAvator() {
         x=getRandomXY();
         y=getRandomXY();
@@ -49,22 +57,17 @@ public class Avator {
         }
     }
 
-    public void updateAvator(){
-        if (StdDraw.hasNextKeyTyped()){
-            char c = StdDraw.nextKeyTyped();
-            if (c=='w'||c=='W'){
-                move(0,1);
-            }else if (c=='s'||c=='S'){
-                move(0,-1);
-            }else if (c=='a'||c=='A'){
-                move(-1,0);
-            }else if (c=='d'||c=='D'){
-                move(1,0);
-            }else if (c=='q'||c=='Q'){
-                System.exit(0);
-            }
-
+    public void updateAvator(char c){
+        if (c == 'w' || c == 'W') {
+            move(0, 1);
+        } else if (c == 's' || c == 'S') {
+            move(0, -1);
+        } else if (c == 'a' || c == 'A') {
+            move(-1, 0);
+        } else if (c == 'd' || c == 'D') {
+            move(1, 0);
         }
+
     }
 
 

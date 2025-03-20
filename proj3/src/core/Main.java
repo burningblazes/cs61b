@@ -4,23 +4,41 @@ import tileengine.TERenderer;
 import tileengine.TETile;
 import tileengine.Tileset;
 import edu.princeton.cs.algs4.StdDraw;
+import utils.FileUtils;
+
+import java.io.FileWriter;
 
 import java.awt.*;
+import java.util.ArrayList;
 
 
 public class Main {
+
+    private static final String SAVE_FILE = "src/save.txt";
+
     public static void main(String[] args) {
         TERenderer ter = new TERenderer();
         ter.initialize(50,50);
         World world = mainMenu();
-        Avator avator = new Avator(world);
         ter.renderFrame(world.getWorld());
 
+        boolean readyToExit = false;
+
         while(true) {
-            avator.updateAvator();
+            if (StdDraw.hasNextKeyTyped()) {
+                char c = StdDraw.nextKeyTyped();
+                if (c==':'){
+                    readyToExit = true;
+                }else if ( readyToExit && (c=='q' || c=='Q')) {
+                    saveWorld(world.getWorld());
+                    System.exit(0);
+                } else {
+                    readyToExit = false;
+                    world.getAvator().updateAvator(c);
+                }
+            }
             ter.renderFrame(world.getWorld());
         }
-
     }
 
     public static void showMainMenu(){
@@ -53,11 +71,55 @@ public class Main {
                 } else if (c == 'n' || c == 'N') {
                     return newGame();
                 }else if (c == 'l' || c == 'L') {
-                    World temp=new World(12345L); //TODO
-                    return temp;
+                    return loadWorld(SAVE_FILE);
                 }
             }
         }
+    }
+
+    public static void saveWorld(TETile[][] tiles){
+        StringBuilder res = new StringBuilder();
+        for (int i = 0; i < 50; i++){
+            for (int j = 0; j < 50; j++){
+                if (tiles[i][j] == Tileset.NOTHING){
+                    res.append('N');
+                }else if (tiles[i][j] == Tileset.AVATAR){
+                    res.append('A');
+                }else if (tiles[i][j] == Tileset.WALL){
+                    res.append('W');
+                }else if (tiles[i][j]==Tileset.FLOOR){
+                    res.append('F');
+                }
+            }
+            res.append("\n");
+        }
+        FileUtils.writeFile(SAVE_FILE, res.toString());
+    }
+
+    public static World loadWorld(String filename){
+        TETile[][] world = new TETile[50][50];
+        int x=51;
+        int y=51;
+        String file= FileUtils.readFile(filename);
+        String[] lines = file.split("\n");
+        for (int i = 0; i < lines.length; i++){
+            String line = lines[i];
+            for (int j = 0; j < line.length(); j++){
+                if (line.charAt(j) == 'N'){
+                    world[i][j]=Tileset.NOTHING;
+                }else if (line.charAt(j) == 'A'){
+                    world[i][j]=Tileset.AVATAR;
+                    x=i;
+                    y=j;
+                }else if (line.charAt(j) == 'W'){
+                    world[i][j]=Tileset.WALL;
+                }else if (line.charAt(j) == 'F'){
+                    world[i][j]=Tileset.FLOOR;
+                }
+            }
+        }
+        return new World(world,x,y);
+
     }
 
     private static void enterSeedInstruction(){
