@@ -17,6 +17,7 @@ public class World {
     private TETile[][] myWorld;
     private Random random;
     private ArrayList<Room> rooms;
+    private Avator avator;
     //private TERenderer ter;
 
     public World(long seed) {
@@ -27,10 +28,8 @@ public class World {
         random = new Random(seed);
         myWorld = new TETile[width][height];
         rooms = new ArrayList<>();
-
         clearWorld();
         drawWorld();
-
     }
 
     public void clearWorld() {
@@ -43,7 +42,7 @@ public class World {
 
     public void drawWorld() {
         drawRooms();
-        Hallway hallway=new Hallway(random,this);
+        Hallway hallway=new Hallway(this);
         hallway.drawAll(myWorld);
        // hallway.drawAllTurning(myWorld,random);
     }
@@ -68,10 +67,14 @@ public class World {
         return rooms;
     }
 
+    public Random getRandom() {
+        return random;
+    }
+
     private void drawRooms(){
         int num=random.nextInt(5)+7;
         for (int x = 0; x < num; x++) {
-            Room room = new Room(random, this);
+            Room room = new Room(this);
             rooms.add(room);
             room.draw(myWorld);
         }

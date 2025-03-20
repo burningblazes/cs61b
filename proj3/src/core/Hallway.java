@@ -1,6 +1,5 @@
 package core;
 
-import edu.princeton.cs.algs4.StdDraw;
 import tileengine.TETile;
 import tileengine.Tileset;
 
@@ -14,8 +13,10 @@ public class Hallway {
     private ArrayList<Room> rooms;
     private final static double P=0.25;
     private int numTurning;
+    private Random random;
 
-    public Hallway(Random random, World world) {
+    public Hallway(World world) {
+        this.random = world.getRandom();
         connections = new ArrayList<>();
         rooms = world.getRooms();
         initConnections();
@@ -102,20 +103,20 @@ public class Hallway {
         }
     }
 
-    public void drawAllTurning(TETile[][] tile, Random rand) {
+    public void drawAllTurning(TETile[][] tile) {
         System.out.println(numTurning);
         for (int i = 0; i < numTurning; i++) {
-            drawSingleTurning(tile,rand);
+            drawSingleTurning(tile);
         }
     }
 
-    public void drawSingleTurning(TETile[][] tile, Random rand) {
-        int x = getRandNum(rand);
-        int y = getRandNum(rand);
+    public void drawSingleTurning(TETile[][] tile) {
+        int x = getRandNumXY();
+        int y = getRandNumXY();
 
         while (tile[x][y] != Tileset.NOTHING ||!validTurn(tile, x, y)) {
-            x = getRandNum(rand);
-            y = getRandNum(rand);
+            x = getRandNumXY();
+            y = getRandNumXY();
         }
 
         // if x>25, goes left until it reaches a wall;
@@ -166,8 +167,8 @@ public class Hallway {
     }
 
 
-    private int getRandNum(Random rand) {
-        return rand.nextInt(43)+3;
+    private int getRandNumXY() {
+        return random.nextInt(43)+3;
     }
 
     private boolean validTurn(TETile[][] tile, int x, int y) {

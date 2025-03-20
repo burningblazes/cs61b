@@ -12,12 +12,18 @@ public class Main {
     public static void main(String[] args) {
         TERenderer ter = new TERenderer();
         ter.initialize(50,50);
-        mainMenu();
-        World world = mainMenuCommand();
+        World world = mainMenu();
+        Avator avator = new Avator(world);
         ter.renderFrame(world.getWorld());
+
+        while(true) {
+            avator.updateAvator();
+            ter.renderFrame(world.getWorld());
+        }
+
     }
 
-    public static void mainMenu(){
+    public static void showMainMenu(){
         StdDraw.clear(Color.BLACK);
         printTitle();
 
@@ -37,7 +43,8 @@ public class Main {
         StdDraw.show();
     }
 
-    public static World mainMenuCommand(){
+    public static World mainMenu(){
+        showMainMenu();
         while(true){
             if (StdDraw.hasNextKeyTyped()) {
                 char c = StdDraw.nextKeyTyped();

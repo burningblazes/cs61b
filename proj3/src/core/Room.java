@@ -10,17 +10,19 @@ import java.util.Random;
 public class Room {
     private int x, y;
     private int width, height;
+    private Random random;
 
-    public Room(Random random, World world) {
+    public Room(World world) {
         int worldWidth = world.getWidth();
         int worldHeight = world.getHeight();
-        initialize(worldWidth, worldHeight,random);
+        this.random = world.getRandom();
+        initialize(worldWidth, worldHeight);
         while (!isValidRoom(world) || isOverlapped(world)) {
-            initialize(worldWidth, worldHeight,random);
+            initialize(worldWidth, worldHeight);
         }
     }
 
-    private void initialize(int worldWidth, int worldHeight,Random random) {
+    private void initialize(int worldWidth, int worldHeight) {
         x = random.nextInt(worldWidth - 6) + 1;
         y = random.nextInt(worldHeight - 6) + 1;
         width = random.nextInt(8) +6;
